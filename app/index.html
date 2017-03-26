@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html lang="en" ng-app="myApp" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html lang="en" ng-app="myApp" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html lang="en" ng-app="myApp" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html lang="en" ng-app="myApp" class="no-js"> <!--<![endif]-->
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Анкета</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+	<link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/normalize.css">
+	<link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/main.css">
+	<link rel="stylesheet" href="app.css">
+	<script src="bower_components/html5-boilerplate/dist/js/vendor/modernizr-2.8.3.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+
+</head>
+<body ng-app="myApp" ng-controller="mainCtrl">
+	<div class="main_wrap">
+		<div class="main">
+			<div>
+
+				<div class="bnt_steps" ng-hide="step == 5">
+					<button ng-click="firstStepClicked()" ng-class="{'active_step': step == 1}">1</button>
+					<button ng-disabled="!stepVisibility[1]" ng-click="secondStepClicked()" ng-class="{'active_step': step == 2}">2</button>
+					<button ng-disabled="!stepVisibility[2]" ng-click="thirdStepClicked()" ng-class="{'active_step': step == 3}">3</button>
+					<button ng-disabled="!stepVisibility[3]" ng-click="fourthStepClicked()" ng-class="{'active_step': step == 4}">4</button>
+				</div>
+
+				<div ng-switch="step">
+					<div class="first_step step" ng-switch-when="1">
+						<p>1. Введите имя и e-mail</p>
+						<form action="" name="myForm" novalidate>
+
+							<div class="wrap_inputs">
+								<div class="name_input">
+									<input 
+									id="userName" 
+									type="text" 
+									placeholder="Имя" 
+									name="name" 
+									ng-model="userForm.personalDetails.name" 
+									ng-class="{'red_border': myForm.name.$touched && myForm.name.$error.required || showEmptyName}" 
+									ng-change="showEmptyName = false" required>
+									<span class="invalid_txt" ng-show="myForm.name.$touched && myForm.name.$invalid || showEmptyName">
+										<span ng-show="myForm.name.$error.required"> - необходимо ввести имя</span>
+									</span>
+								</div>
+								<div class="mail_input">
+									<input 
+									id="userEmail" 
+									type="email" 
+									placeholder="E-mail" 
+									name="email" 
+									ng-model="userForm.personalDetails.email" 
+									ng-class="{'red_border': myForm.email.$touched && (myForm.email.$error.required || myForm.email.$error.pattern) || showEmptyEmail}" 
+									ng-change="showEmptyEmail = false" 
+									ng-pattern="emailFormat" required>
+									<span class="invalid_txt" ng-show="myForm.email.$touched && myForm.email.$invalid || showEmptyEmail">
+										<span ng-show="myForm.email.$error.required"> - необходимо ввести email</span>
+										<span ng-show="myForm.email.$error.pattern"> - введите корректный email</span>
+									</span>
+								</div>
+							</div>
+						</form>
+					</div>
+
+					<div class="second_step step" ng-switch-when="2">
+						<p>2. Выберите страну и город</p>
+						<div class="wrap_selects">
+							<select 
+								id="country" 
+								ng-change="onCountrySelect()" 
+								ng-model="userForm.locationDetails.country" 
+								ng-class="{'red_border': showEmptyCountry}"
+							>
+								<option ng-repeat="cn in countriesToShow">{{cn}}</option>
+							</select>
+							<select
+								id="city"
+								ng-model="userForm.locationDetails.city"
+							>
+								<option ng-repeat="ct in citiesToShow">{{ct}}</option>
+							</select>
+						</div>
+					</div>
+
+					<div class="third_step step" ng-switch-when="3">
+						<p>3. Отметьте социальные сети</p>
+						<div class="social">
+							<div class="wrap_check">
+								<input
+									type="checkbox"
+									id="fb"
+									ng-model="userForm.socialCheckbox.checked_fb"
+								>
+								<label for="fb">Facebook</label>
+							</div>
+							<input
+								type="text"
+								id="fb-user"
+								placeholder="Ваша страница в Facebook"
+								ng-show="userForm.socialCheckbox.checked_fb"
+								ng-model="userForm.socialDetails.link_fb"
+							>
+						</div>
+
+						<div class="social">
+							<div class="wrap_check">
+								<input 
+								type="checkbox" 
+								id="vk" 
+								ng-model="userForm.socialCheckbox.checked_vk">
+								<label for="vk">ВКонтакте</label>
+							</div>
+							<input 
+							type="text" 
+							id="vk-user" 
+							placeholder="Ваша страница в Вконтакте" 
+							ng-show="userForm.socialCheckbox.checked_vk" 
+							ng-model="userForm.socialDetails.link_vk">
+						</div>
+
+						<div class="social">
+							<div class="wrap_check">
+								<input 
+								type="checkbox" 
+								id="tw" ng-model="userForm.socialCheckbox.checked_tw">
+								<label for="tw">Twitter</label>
+							</div>
+							<input 
+							type="text" 
+							id="tw-user" 
+							placeholder="Ваша страница в Twitter" 
+							ng-show="userForm.socialCheckbox.checked_tw" 
+							ng-model="userForm.socialDetails.link_tw">
+						</div>
+
+						<div class="social">
+							<div class="wrap_check">
+								<input type="checkbox" 
+								id="odnoklas" 
+								ng-model="userForm.socialCheckbox.checked_od">
+								<label for="odnoklas">Одноклассники</label>
+							</div>
+							<input 
+							type="text" 
+							id="od-user" 
+							placeholder="Ваша страница в Одноклассники" 
+							ng-show="userForm.socialCheckbox.checked_od" 
+							ng-model="userForm.socialDetails.link_od">
+						</div>
+					</div>
+
+					<div class="fourth_step step" ng-switch-when="4">
+						<p>4. Выберите любимого котика</p>
+						<div class="wrap_img_block">
+							<div class="block_images">
+								<div class="block_images-1">
+									<img src="img/cat1.jpg" class="img_choose" ng-click="clickImg($event)">
+									<img src="img/cat2.jpg" class="img_choose" ng-click="clickImg($event)">
+								</div>
+								<div class="block_images-2">
+									<img src="img/cat3.jpg" class="img_choose" ng-click="clickImg($event)">
+									<img src="img/dog4.jpg" id="dog" class="img_choose" ng-click="clickImg($event)">
+								</div>
+
+
+							</div>
+							<p ng-show="showDogTxt" class="txt_red">Вы выбрали собачку. А надо котика.</p>
+							<p ng-show="showChooseTxt" class="txt_red">Вы не выбрали котика.</p>
+						</div>
+					</div>
+
+					<div class="finish_window step" ng-switch-when="5">
+						<div class="main_info">
+							<div class="main_info_txt">
+								<p class="user-name">{{user.personalDetails.name}}</p>
+								<p>{{user.personalDetails.email}}</p>
+								<p><span ng-show="user.locationDetails.city">{{user.locationDetails.city}},</span> <span>{{user.locationDetails.country}}</span></p>
+								<div>
+									<p ng-show="user.socialDetails.link_fb"><span class="social_ttl">Facebook:</span> <span>{{user.socialDetails.link_fb}}</span> </p>
+									<p ng-show="user.socialDetails.link_vk"><span class="social_ttl">ВКонтакте:</span> <span>{{user.socialDetails.link_vk}}</span></p>
+									<p ng-show="user.socialDetails.link_tw"><span class="social_ttl">Twitter:</span> <span>{{user.socialDetails.link_tw}}</span> </p>
+									<p ng-show="user.socialDetails.link_od"><span class="social_ttl">Одноклассники:</span> <span>{{user.socialDetails.link_od}}</span></p>
+								</div>
+							</div>
+							<div class="main_info_img">
+								<img ng-src="{{imgSrc}}" alt="">
+							</div>
+						</div>
+						<button ng-click="tryAgain()" class="orange_btn">Пройти заново</button>
+					</div>
+				</div>
+			</div>
+
+
+			<div class="wrap_btn" ng-hide="step == 5">
+				<button ng-click="prevStep()"><i class="fa fa-chevron-left" aria-hidden="true"></i><span>Предыдущий</span></button>
+				<button ng-click="nextStep()" ng-disabled="disabledBtnNext" ng-hide="step == 4"><span>Следующий</span><i class="fa fa-chevron-right" aria-hidden="true"></i></button>
+				<button ng-click="nextStep()" ng-show="step == 4" class="orange_btn">Завершить</button>
+			</div>
+		</div>
+	</div>
+  <!--[if lt IE 7]>
+      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+      <![endif]-->
+
+
+  <!-- In production use:
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>
+-->
+<script src="bower_components/angular/angular.js"></script>
+<script src="bower_components/angular-route/angular-route.js"></script>
+<script src="app.js"></script>
+<!-- <script src="components/version/version.js"></script>
+<script src="components/version/version-directive.js"></script>
+<script src="components/version/interpolate-filter.js"></script> -->
+</body>
+</html>
