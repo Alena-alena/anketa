@@ -377,7 +377,7 @@ img.click-pic {
   .wrap_btn {
     margin-top: 75px;
   }
-  ..block_images-1, .block_images-2 {
+  .block_images-1, .block_images-2 {
     width: 100%;
   }
 }
