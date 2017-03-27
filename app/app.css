@@ -313,6 +313,9 @@ img.click-pic {
 }
 
 @media screen and (max-width: 480px) {
+  body {
+    overflow-x: hidden;
+  }
   .main_wrap {
     -webkit-align-items: flex-start;
     -ms-flex-align: start;
@@ -373,5 +376,8 @@ img.click-pic {
   }
   .wrap_btn {
     margin-top: 75px;
+  }
+  ..block_images-1, .block_images-2 {
+    width: 100%;
   }
 }
