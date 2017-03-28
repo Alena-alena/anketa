@@ -19,7 +19,7 @@ app.controller('mainCtrl', function($scope,$http) {
     for (var countryKey in data) {
       $scope.countries.push({
         id: countryKey,
-        name: data[countryKey],
+        name: data[countryKey]
       });
       $scope.countriesToShow.push(data[countryKey]);
     }
