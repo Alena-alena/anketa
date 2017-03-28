@@ -201,7 +201,7 @@
 			<div class="wrap_btn" ng-hide="step == 5">
 				<button ng-click="prevStep()"><i class="fa fa-chevron-left" aria-hidden="true"></i><span>Предыдущий</span></button>
 				<button ng-click="nextStep()" ng-disabled="disabledBtnNext" ng-hide="step == 4"><span>Следующий</span><i class="fa fa-chevron-right" aria-hidden="true"></i></button>
-				<button ng-click="nextStep()" ng-show="step == 4" class="orange_btn">Завершить</button>
+				<button ng-click="nextStep()" ng-show="step == 4" class="orange_btn" ng-disabled="disabledBtnNext">Завершить</button>
 			</div>
 		</div>
 	</div>
