@@ -30,7 +30,7 @@
 					<button ng-disabled="!stepVisibility[3]" ng-click="fourthStepClicked()" ng-class="{'active_step': step == 4}">4</button>
 				</div>
 
-				<div ng-switch="step">
+				<div ng-switch="step" ng-cloak>
 					<div class="first_step step" ng-switch-when="1">
 						<p>1. Введите имя и e-mail</p>
 						<form action="" name="myForm" novalidate>
